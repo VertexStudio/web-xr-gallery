@@ -1,0 +1,454 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Web-XR-Gallery</title>
+  <meta name="description" content="Web-XR-Gallery">
+
+  <!-- <script src="super/build.js"></script> -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+ 
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+ 
+  <!-- RayCast -->
+  <!-- <script src="js/raycast.component.js"></script> -->
+
+ 
+
+</head>
+
+<body>
+  <a-scene networked-scene="
+      room: dev;
+      debug: true;
+      adapter: easyrtc;
+    ">
+    <a-assets>
+
+      <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
+      <img id="sky" src="https://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+        <a-asset-item id="gallery" src="Characters/WebGallery.gltf"></a-asset-item>
+
+      <!-- Characters -->
+      <a-asset-item id="Egg" src="Characters/Egg.gltf"></a-asset-item>
+      <a-asset-item id="BadChicken" src="Characters/BadChicken.gltf"></a-asset-item>
+      <a-asset-item id="Bat" src="Characters/Bat.gltf"></a-asset-item>
+      <a-asset-item id="Butterfly" src="Characters/Butterfly.gltf"></a-asset-item>
+      <a-asset-item id="Cactus" src="Characters/Cactus.gltf"></a-asset-item>
+      <a-asset-item id="Ghost" src="Characters/Ghost.gltf"></a-asset-item>
+      <a-asset-item id="Gremlin" src="Characters/Gremlin.gltf"></a-asset-item>
+      <a-asset-item id="Ogre" src="Characters/Ogre.gltf"></a-asset-item>
+      <a-asset-item id="Penguin" src="Characters/Penguin.gltf"></a-asset-item>
+      <a-asset-item id="RockGuitar" src="Characters/RockGuitar.gltf"></a-asset-item>
+      <a-asset-item id="Vampire" src="Characters/Vampire.gltf"></a-asset-item>
+      <a-asset-item id="TheThing" src="Characters/TheThing.gltf"></a-asset-item>
+      
+      <a-asset-item id="plane" src="Characters/Plane.gltf"></a-asset-item>
+      
+      
+      <!-- Templates -->
+
+      <!-- Avatar -->
+      <template id="avatar-template">
+        <a-entity class="avatar">
+          <a-sphere class="head" scale="0.45 0.5 0.4"></a-sphere>
+          <a-entity class="face" position="0 0.05 0">
+            <a-sphere class="eye" color="#efefef" position="0.16 0.1 -0.35" scale="0.12 0.12 0.12">
+              <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+            </a-sphere>
+            <a-sphere class="eye" color="#efefef" position="-0.16 0.1 -0.35" scale="0.12 0.12 0.12">
+              <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+            </a-sphere>
+          </a-entity>
+        </a-entity>
+      </template>
+
+      <!-- /Templates -->
+    </a-assets>
+
+    <a-entity id="player" networked="template:#avatar-template;attachTemplateToLocal:false;" 
+    camera="fov:18" scroll
+      position="0 3.05 3.2" rotation="0 0 0"
+      >
+
+      <a-entity light="type: point;  distance: 10;  color: #fff; intensity:0.4; decay: 0.05" position="0 0 0"></a-entity>
+      <a-sphere class="head" visible="false" random-color></a-sphere>
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-entity>
+    </a-entity>
+    <!-- lights -->
+    <!-- <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity> -->
+
+    <a-entity id="ambientLight" light="type: ambient; color: #CCC"></a-entity>
+    <a-entity id="keyLight" light="type: directional; color: #fef; intensity: 1" position="0.55717 2.48596 1.39464">
+    </a-entity>
+    <a-entity id="fillLight" light="type: directional; color: #efe; intensity:1" position="-1.46187 -0.55901 0.23332">
+    </a-entity>
+
+
+
+    <!-- <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity> -->
+    <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+
+
+    <!-- Characters -->
+    
+    <!-- <a-entity class="clickable" id="gallery" gltf-model="#plane" scale="1 1 1" position="0 1.5 0" gltf-hover></a-entity> -->
+
+    <a-entity class="clickable" id="gallery" gltf-model="#gallery" scale="1 1 1" position="0 1.5 0" gltf-hover></a-entity>
+    <a-entity class="clickable" id="e-Egg" gltf-model="#Egg" scale="1 1 1" position="-0.351 1.88424 -0.08775"></a-entity>
+    
+     <a-entity class="clickable" id="e-BadChicken" gltf-model="#BadChicken" scale="1 1 1"  position="0 1.87578 -0.08231"></a-entity>
+     <a-entity class="clickable" id="e-Bat" gltf-model="#Bat" scale="1 1 1" position="0.36433 1.865 -0.05701"></a-entity>
+    <a-entity class="clickable" id="e-Butterfly" gltf-model="#Butterfly" scale="1 1 1" position="-0.362 1.412 -0.0923"></a-entity>
+    <a-entity class="clickable" id="e-Cactus" gltf-model="#Cactus" scale="0.8 0.8 0.8" position="-0.009 1.453 -0.1053"></a-entity>
+    <a-entity class="clickable" id="e-Ghost" gltf-model="#Ghost" scale="1.3 1.3 1.3" position="0.372 1.36532 -0.07793"></a-entity>
+    <a-entity class="clickable" id="e-Gremlin" gltf-model="#Gremlin" scale="0.8 0.8 0.8" position="-0.36 0.99548 -0.09897"></a-entity>
+    <a-entity class="clickable" id="e-Ogre" gltf-model="#Ogre" scale="0.4 0.4 0.4" position="0.0025 0.9941 -0.08029"></a-entity>
+    <a-entity class="clickable" id="e-Penguin" gltf-model="#Penguin" scale="0.7 0.7 0.7" position="0.35051 0.99498 -0.06625"></a-entity>
+    <a-entity class="clickable" id="e-RockGuitar" gltf-model="#RockGuitar" scale="0.85 0.85 0.85" position="-0.3646 0.573 -0.11454"></a-entity>
+    <a-entity class="clickable" id="e-Vampire" gltf-model="#Vampire" scale="0.5 0.5 0.5" position="0 0.60333 -0.04693"></a-entity>
+    <a-entity class="clickable" id="e-TheThing" gltf-model="#TheThing" scale="1.2 1.2 1.2" position="0.37876 0.55242 -0.08272"></a-entity>
+    
+    </a-entity>
+  </a-scene>
+
+  <script>
+    // On mobile remove elements that are resource heavy
+    var isMobile = AFRAME.utils.device.isMobile();
+  </script>
+
+  <script>
+    // Called by Networked-Aframe when connected to server
+    function onConnect() {
+      console.log("onConnect", new Date());
+    }
+
+
+
+
+
+
+    // function leftTransition(event) {
+
+    //   var offset = event.deltaY;
+    //   console.log("offset", offset)
+    //   let camera = document.getElementById("player")
+    //   const cameraVector = new THREE.Vector3(0, 0, 0);
+    //   cameraVector.copy(camera.getAttribute("position"))
+    //   cameraVector.y = cameraVector.y + (offset * 0.001)
+    //   if(cameraVector.y<0.2 ){
+    //     cameraVector.y=0.2
+    //   }else if ( cameraVector.y>= 2.8 ){
+    //     cameraVector.y=2.8
+    //   }
+
+    //   document.getElementById("player").setAttribute("position", cameraVector)
+    // }
+
+    function lerp(x, y, t) {
+
+      return (1 - t) * x + t * y;
+
+    }
+
+
+
+    AFRAME.registerComponent('scroll', {
+      schema: { default: 1.0 },
+      init: function () {
+        let self = this
+        self.scrollY = document.getElementById("player").getAttribute("position").y
+        console.log("y position: ", scrollY)
+
+
+
+        window.addEventListener("wheel", function () {
+
+
+          let offset = event.deltaY;
+          console.log("offset", offset)
+          self.scrollY += offset * 0.001
+          console.log("self.scrollY", self.scrollY)
+
+
+        });
+
+
+      },
+      update: function () {
+
+      },
+
+      tick: function (time, dt) {
+        // console.log("dt: ", dt)
+        // console.log("time: ", time)
+        let curScroll = this.el.getAttribute("position")
+        curScroll.y = lerp(curScroll.y, this.scrollY, (1 - Math.exp( - 0.005 * dt )) )
+        this.el.setAttribute("position", curScroll)
+        if(curScroll.y>3){
+          this.scrollY = lerp(curScroll.y, 3, (1 - Math.exp( - 0.02 * dt )) )
+          this.el.setAttribute("position", curScroll)
+        }
+        
+        
+        if(curScroll.y<0.2){
+          this.scrollY = lerp(curScroll.y, 0.2, (1 - Math.exp( - 0.02 * dt )) )
+          this.el.setAttribute("position", curScroll)
+        }
+    
+
+      }
+    });
+    
+    
+    let player
+let mesh
+let meshTargetPosition
+let meshTargetRotation
+let animationIterator = 0
+
+let meshPos = new THREE.Vector3()
+let meshRot = new THREE.Vector3()
+
+let animationState = false
+let lockState = false
+
+
+let targetPos = new THREE.Vector3()
+
+function lerpVectors(v1, v2, alpha) {
+
+  this.x = v1.x + (v2.x - v1.x) * alpha;
+  this.y = v1.y + (v2.y - v1.y) * alpha;
+  this.z = v1.z + (v2.z - v1.z) * alpha;
+
+  return this;
+}
+
+
+
+AFRAME.registerComponent('gltf-hover', {
+  init: function () {
+
+    player = document.getElementById("player")
+    let el = this.el;
+    let self = this;
+    this.mouseOverObject = null
+    self.trees = [];
+    document.body.onkeyup = function (e) {
+
+      if (e.key == "Enter") {
+        lockState = true;
+        console.log("funca: ", e.key)
+
+      }
+    }
+
+
+
+
+    el.addEventListener('model-loaded', e => {
+      let tree3D = el.getObject3D('mesh');
+      if (!tree3D) {
+        return;
+      }
+      //console.log('tree3D', tree3D);
+      tree3D.traverse(function (node) {
+        if (node.isMesh) {
+          console.log(node);
+          self.trees.push(node);
+        }
+      });
+    });
+
+    el.addEventListener('raycaster-intersected', e => {
+
+      self.raycaster = e.detail.el;
+      let intersection = self.raycaster.components.raycaster.getIntersection(
+        el
+      );
+      console.log('Hover: ', intersection.object.name, self.mouseOverObject,
+        intersection.object.name != self.mouseOverObject);
+      self.mouseOver = true
+    });
+
+    el.addEventListener('raycaster-intersected-cleared', e => {
+
+      self.trees.forEach(function (tree) {
+        tree.material.emissive = new THREE.Color(0x000000);
+        tree.material.emissiveIntensity = 0.0;
+      });
+      self.mouseOverObject = null
+      self.mouseOver = false
+    });
+    document.addEventListener('mousemove', e => {
+      if (!self.mouseOver) return;
+
+      let intersection = self.raycaster.components.raycaster.getIntersection(
+        el
+      );
+      if (!self.mouseOverObject || self.mouseOverObject.name != intersection.object.name && !lockState  && !animationState) {
+        console.log('Hover: ', intersection.object.name, self.mouseOverObject,
+          intersection.object.name != self.mouseOverObject);
+        // intersection.object.material.emissive = new THREE.Color(0xFF0000);
+        // intersection.object.material.emissiveIntensity = 0.5;
+        if (intersection.object.name == 'Box000') {
+          document.getElementById('e-Egg').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box001') {
+          document.getElementById('e-BadChicken').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box002') {
+          document.getElementById('e-Bat').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box003') {
+          document.getElementById('e-Butterfly').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box004') {
+          document.getElementById('e-Cactus').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box005') {
+          document.getElementById('e-Ghost').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box006') {
+          document.getElementById('e-Gremlin').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box007') {
+          document.getElementById('e-Ogre').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box008') {
+          document.getElementById('e-Penguin').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box009') {
+          document.getElementById('e-RockGuitar').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box010') {
+          document.getElementById('e-Vampire').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box011') {
+          document.getElementById('e-TheThing').setAttribute('animation-mixer', 'clip:Idle')
+        }
+
+        if (self.mouseOverObject && !lockState) {
+          self.mouseOverObject.material.emissive = new THREE.Color(0x000000);
+          self.mouseOverObject.material.emissiveIntensity = 0.0;
+          if (self.mouseOverObject.name == 'Box000') {
+            document.getElementById('e-Egg').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box001') {
+            document.getElementById('e-BadChicken').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box002') {
+            document.getElementById('e-Bat').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box003') {
+            document.getElementById('e-Butterfly').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box004') {
+            document.getElementById('e-Cactus').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box005') {
+            document.getElementById('e-Ghost').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box006') {
+            document.getElementById('e-Gremlin').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box007') {
+            document.getElementById('e-Ogre').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box008') {
+            document.getElementById('e-Penguin').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box009') {
+            document.getElementById('e-RockGuitar').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box010') {
+            document.getElementById('e-Vampire').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box011') {
+            document.getElementById('e-TheThing').removeAttribute('animation-mixer')
+          }
+        }
+        self.mouseOverObject = intersection.object;
+      }
+    });
+    el.addEventListener('click', function () {
+      console.log('click over: ', self.mouseOverObject);
+
+      if (self.mouseOverObject.name == 'Box001' && !animationState) {
+
+
+        animationIterator
+        mesh = document.getElementById("e-BadChicken")
+        mesh.setAttribute("animation-mixer", "clip:Attack")
+
+        console.log("mesh: ", mesh)
+        meshTargetPosition = mesh.getAttribute("position")
+        targetPos.copy(meshTargetPosition)
+
+        console.log("working: ")
+        meshPos = (mesh.getAttribute("position")).valueOf()
+        meshPos.z += 1
+
+        mesh.getAttribute("rotation")
+        console.log("🚀 ~ file: raycast.component.js ~ line 146 ~  rotation", mesh.getAttribute("rotation"))
+        lockState=true
+
+        animationState = true
+        // document.getElementById('player').setAttribute('animation', 'property: position; to: 0 2.05 1; dur: alternate; dur: 2000;')
+        // console.log('............');
+        // let url = "https:";
+        // let win = window.open(url, "_blank");
+        // win.focus();
+      }
+    });
+  },
+
+
+  tick: function (time, dt) {
+    // console.log("dt: ", dt)
+    // console.log("time: ", time)
+    let curPosition = player.getAttribute("position")
+    let curRotation = player.getAttribute("rotation")
+
+    let curMeshPosition = document.getElementById("e-BadChicken").getAttribute("position")
+
+    if (animationState) {
+
+      //Camera dolly
+
+      targetPos.copy(meshTargetPosition)
+      //  targetPos.z+=0.0
+      // targetPos.y -= 2
+      targetPos.z += 2
+      targetPos.y += 0.1
+      curPosition.x = lerp(curPosition.x, targetPos.x, (1 - Math.exp(- 0.005 * dt)))
+      curPosition.y = lerp(curPosition.y, targetPos.y, (1 - Math.exp(- 0.001 * dt)))
+      curPosition.z = lerp(curPosition.z, targetPos.z, (1 - Math.exp(- 0.005 * dt)))
+
+      meshRot.copy(mesh.getAttribute("rotation"))
+      // meshRot.x += 90
+      curRotation.x = lerp(curRotation.x, 90, (1 - Math.exp(- 0.005 * dt)))
+
+      player.setAttribute("position", curPosition)
+      // player.setAttribute("rotation", curRotation)
+
+
+      //  pollito animation
+
+      curMeshPosition.z = lerp(curMeshPosition.z, meshPos.z, (1 - Math.exp(- 0.0005 * dt)))
+      let meshRotation = document.getElementById("e-BadChicken").getAttribute("rotation")
+      // mesh.getAttribute("rotation")
+      // meshRotation.y=   (Math.floor(time*0.05))
+
+      // meshRotation.y = lerp(meshRotation.y, (Math.floor(time * 0.01)), (1 - Math.exp(- 0.001 * dt)))
+      // meshRotation.x = lerp(meshRotation.x, 90, (1 - Math.exp(- 0.001 * dt)))
+
+
+      mesh.setAttribute("position", curMeshPosition)
+      mesh.setAttribute("rotation", meshRotation)
+      console.log("meshrotation: ", meshRotation)
+
+    }
+
+
+
+  },
+
+
+
+
+});
+
+function lerp(x, y, t) {
+
+  return (1 - t) * x + t * y;
+
+}
+
+
+
+
+  </script>
+</body>
+
+</html>
