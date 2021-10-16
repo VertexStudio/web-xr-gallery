@@ -15,9 +15,8 @@ npm Commands.
 ```
 npm install 
 npm start
-
 ```
-And Go to [http://localhost:3000](http://localhost:3000)
+Go to [http://localhost:3000](http://localhost:3000)
 
 
 
