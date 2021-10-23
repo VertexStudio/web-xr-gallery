@@ -1,0 +1,229 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Web-XR-Gallery</title>
+  <meta name="description" content="Web-XR-Gallery">
+
+  <!-- <script src="super/build.js"></script> -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+  <!-- RayCast -->
+  <script src="../js/raycast.component.js"></script>
+
+
+
+</head>
+
+<body>
+  <a-scene networked-scene="
+      room: dev;
+      debug: true;
+      adapter: easyrtc;
+    ">
+    <a-assets>
+
+      <img id="grid" src="https://img.gs/bbdkhfbzkk/stretch/https://i.imgur.com/25P1geh.png" crossorigin="anonymous">
+      <img id="sky" src="https://i.imgur.com/WqlqEkq.jpg" crossorigin="anonymous" />
+      <a-asset-item id="gallery" scale="1 1 1" set-gallery-material="NaN" src="Characters/Cryptogenes.gltf"></a-asset-item>
+
+      <!-- Characters -->
+      <a-asset-item id="Alien01" src="Characters/Alien01.gltf"></a-asset-item>
+      <a-asset-item id="Alien02" src="Characters/Monster01.gltf"></a-asset-item>
+      <a-asset-item id="Alien03" src="Characters/Alien03.gltf"></a-asset-item>
+      <a-asset-item id="Alien04" src="Characters/Alien04.gltf"></a-asset-item>
+      <a-asset-item id="Alien05" src="Characters/Alien05.gltf"></a-asset-item>
+      <a-asset-item id="Alien06" src="Characters/Alien05.gltf"></a-asset-item>
+      <!-- <a-asset-item id="Alien07" src="Characters/Alien07.gltf"></a-asset-item> -->
+
+      <a-asset-item id="Alien07" src="Characters/Alien05.gltf"></a-asset-item>
+      <a-asset-item id="Alien08" src="Characters/Alien05.gltf"></a-asset-item>
+      <a-asset-item id="Alien09" src="Characters/Alien05.gltf"></a-asset-item>
+      <a-asset-item id="Alien10" src="Characters/Alien05.gltf"></a-asset-item>
+      <a-asset-item id="Alien11" src="Characters/Alien05.gltf"></a-asset-item>
+      <a-asset-item id="Alien12" src="Characters/Alien05.gltf"></a-asset-item>
+
+      <a-asset-item id="plane" src="Characters/Plane.gltf"></a-asset-item>
+
+
+      <!-- Templates -->
+
+      <!-- Avatar -->
+      <template id="avatar-template">
+        <a-entity class="avatar">
+          <a-sphere class="head" scale="0.45 0.5 0.4"></a-sphere>
+          <a-entity class="face" position="0 0.05 0">
+            <a-sphere class="eye" color="#efefef" position="0.16 0.1 -0.35" scale="0.12 0.12 0.12">
+              <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+            </a-sphere>
+            <a-sphere class="eye" color="#efefef" position="-0.16 0.1 -0.35" scale="0.12 0.12 0.12">
+              <a-sphere class="pupil" color="#000" position="0 0 -1" scale="0.2 0.2 0.2"></a-sphere>
+            </a-sphere>
+          </a-entity>
+        </a-entity>
+      </template>
+
+      <!-- /Templates -->
+    </a-assets>
+
+
+    <a-entity id="player" scroll="NaN" networked="template:#avatar-template;attachTemplateToLocal:false;" camera="fov:80" scroll
+      position="0 3.5 1" rotation="0 0 0">
+          
+    <a-entity id ="CharacterLight" light="type: spot;  distance: 10;  color: #39E7A8; intensity:0.4; decay: 0.05" position="0 0 0">
+    </a-entity>
+
+      <a-entity light="type: point;  distance: 10;  color: #fff; intensity:0.4; decay: 0.05" position="0 0 0">
+      </a-entity>
+
+      <a-sphere class="head" visible="false" random-color></a-sphere>
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-entity>
+    </a-entity>
+    <!-- lights -->
+    <!-- <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity> -->
+
+    <a-entity id="ambientLight" light="type: ambient; color: #CCC"></a-entity>
+    <a-entity id="keyLight" light="type: directional; color: #fef; intensity: 1" position="0.55717 2.48596 1.39464">
+    </a-entity>
+    <a-entity id="fillLight" light="type: directional; color: #efe; intensity:1" position="-1.46187 -0.55901 0.23332">
+    </a-entity>
+
+
+
+    <!-- <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity> -->
+    <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+
+
+    <!-- Characters -->
+
+    <!-- <a-entity class="clickable" id="gallery" gltf-model="#plane" scale="1 1 1" position="0 1.5 0" gltf-hover></a-entity> -->
+
+    <a-entity class="clickable" id="gallery" set-gallery-material gltf-model="#gallery" scale="1 1 1" position="0 1.5 0" gltf-hover>
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien01" rotation="-33.19889352326529 -169.82182568780036 -0.6623392111712317" gltf-model="#Alien01" scale="1.2 1.2 1.2" position="-0.90434 1.79321 -0.18772">
+    </a-entity>
+
+    <a-entity class="clickable" id="e-Alien02" rotation="0 0 0" gltf-model="#Alien02" scale="1 1 1" position="-0.30967 1.61425 -0.07545">
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien03" rotation="51.573077055315665 -48.35534607786096 124.47851873894213" gltf-model="#Alien03" scale="0.3 0.3 0.3"
+      position="0.22897 1.8588 -0.11038"></a-entity>
+    <a-entity class="clickable" id="e-Alien04" rotation="63.13078169869462 -20.619605131168065 0" gltf-model="#Alien04" scale="0.3 0.3 0.3"
+      position="0.77356 1.7957 -0.02628">
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien05" rotation="25 0 0" gltf-model="#Alien05" scale="0.8 0.8 0.8"
+      position="-0.90156 0.57458 -0.12388">
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien06" rotation="0 -90 0" gltf-model="#Alien06" scale="0.7 0.7 0.7"
+      position="-0.29412 0.45266 -0.17413">
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien07" gltf-model="#Alien06" scale="1 1 1"
+      position="0.23509 0.5122 -0.09897"></a-entity>
+    <a-entity class="clickable" id="e-Alien08" gltf-model="#Alien06" scale="1 1 1" position="0.73126 0.4945 -0.08029">
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien09" gltf-model="#Alien06" scale="1 1 1"
+      position="-0.84632 -0.35405 -0.06625"></a-entity>
+    <a-entity class="clickable" id="e-Alien10" gltf-model="#Alien06" scale="1 1 1"
+      position="-0.31381 -0.36956 -0.11454"></a-entity>
+    <a-entity class="clickable" id="e-Alien11" gltf-model="#Alien06" scale="1 1 1" position="0.21567 -0.35483 -0.10036">
+    </a-entity>
+    <a-entity class="clickable" id="e-Alien12" gltf-model="#Alien06" scale="1 1 1"
+      position="0.82144 -0.37595 -0.08272"></a-entity>
+
+    </a-entity>
+  </a-scene>
+
+  <script>
+    // On mobile remove elements that are resource heavy
+    var isMobile = AFRAME.utils.device.isMobile();
+  </script>
+
+  <script>
+    // Called by Networked-Aframe when connected to server
+    function onConnect() {
+      console.log("onConnect", new Date());
+    }
+
+    function lerp(x, y, t) {
+
+      return (1 - t) * x + t * y;
+
+    }
+
+
+
+    AFRAME.registerComponent('scroll', {
+      schema: { default: 1.0 },
+      init: function () {
+        let self = this
+        self.scrollY = document.getElementById("player").getAttribute("position").y
+        console.log("y position: ", scrollY)
+
+
+
+        window.addEventListener("wheel", function () {
+
+
+          let offset = event.deltaY;
+          console.log("offset", offset)
+          self.scrollY += offset * 0.001
+          console.log("self.scrollY", self.scrollY)
+
+
+        });
+
+
+      },
+      update: function () {
+
+      },
+
+      tick: function (time, dt) {
+        // console.log("dt: ", dt)
+        // console.log("time: ", time)
+        let curScroll = this.el.getAttribute("position")
+        curScroll.y = lerp(curScroll.y, this.scrollY, (1 - Math.exp(- 0.005 * dt)))
+        this.el.setAttribute("position", curScroll)
+        if (curScroll.y > 3.5) {
+          this.scrollY = lerp(curScroll.y, 3, (1 - Math.exp(- 0.003 * dt)))
+          this.el.setAttribute("position", curScroll)
+        }
+
+
+        if (curScroll.y < -0.5) {
+          this.scrollY = lerp(curScroll.y, 0.2, (1 - Math.exp(- 0.003 * dt)))
+          this.el.setAttribute("position", curScroll)
+        }
+
+
+      }
+    });
+
+    AFRAME.registerComponent('set-gallery-material', {
+      schema: { default: 1.0 },
+      init: function () {
+        let self = this
+        this.el.addEventListener('model-loaded', e => {
+        this.el.getObject3D("mesh").getObjectByName("Box_1").material.emissiveIntensity = 1
+        this.el.getObject3D("mesh").getObjectByName("Box_1").material.metalness=0
+        this.el.getObject3D("mesh").getObjectByName("Box_1").material.emissive = new THREE.Color( 0x39E7A8 );
+        this.el.getObject3D("mesh").getObjectByName("Plane023").material.emissiveIntensity = 1
+        })
+        
+        
+      },
+      update: function () {
+
+      },
+
+      tick: function (time, dt) {
+
+      }
+    });
+
+  </script>
+</body>
+
+</html>

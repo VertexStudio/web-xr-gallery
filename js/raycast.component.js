@@ -10,6 +10,25 @@ let meshRot = new THREE.Vector3()
 let animationState = false
 let lockState = false
 
+let objectsResult
+
+
+fetch("./actors.json").then(
+  function (u) { return u.json(); }
+).then(
+  function (json) {
+    objectsResult = JSON.parse(JSON.stringify(json));
+    var delayInMilliseconds = 3000; //1 second
+    console.log(objectsResult)
+
+    setTimeout(function () {
+      //your code to be executed after 1 second
+
+     }, delayInMilliseconds);
+  }
+)
+console.log(objectsResult)
+
 
 let targetPos = new THREE.Vector3()
 
@@ -52,7 +71,7 @@ AFRAME.registerComponent('gltf-hover', {
       //console.log('tree3D', tree3D);
       tree3D.traverse(function (node) {
         if (node.isMesh) {
-          console.log(node);
+          // console.log(node);
           self.trees.push(node);
         }
       });
@@ -71,10 +90,10 @@ AFRAME.registerComponent('gltf-hover', {
 
     el.addEventListener('raycaster-intersected-cleared', e => {
 
-      self.trees.forEach(function (tree) {
-        tree.material.emissive = new THREE.Color(0x000000);
-        tree.material.emissiveIntensity = 0.0;
-      });
+      // self.trees.forEach(function (tree) {
+      //   tree.material.emissive = new THREE.Color(0x000000);
+      //   tree.material.emissiveIntensity = 0.0;
+      // });
       self.mouseOverObject = null
       self.mouseOver = false
     });
@@ -90,17 +109,17 @@ AFRAME.registerComponent('gltf-hover', {
         // intersection.object.material.emissive = new THREE.Color(0xFF0000);
         // intersection.object.material.emissiveIntensity = 0.5;
         if (intersection.object.name == 'Box000') {
-          document.getElementById('e-Egg').setAttribute('animation-mixer', 'clip:Idle')
-        } else if (intersection.object.name == 'Box001') {
-          document.getElementById('e-BadChicken').setAttribute('animation-mixer', 'clip:Idle')
+          document.getElementById('e-Alien01').setAttribute('animation-mixer', 'clip:Idle')
+        } else if (intersection.object.name == 'Box_1') {
+          document.getElementById('e-Alien02').setAttribute('animation-mixer', '')
         } else if (intersection.object.name == 'Box002') {
-          document.getElementById('e-Bat').setAttribute('animation-mixer', 'clip:Idle')
+          document.getElementById('e-Alien03').setAttribute('animation-mixer', 'clip:Idle')
         } else if (intersection.object.name == 'Box003') {
-          document.getElementById('e-Butterfly').setAttribute('animation-mixer', 'clip:Idle')
+          document.getElementById('e-Alien04').setAttribute('animation-mixer', 'clip:Idle')
         } else if (intersection.object.name == 'Box004') {
-          document.getElementById('e-Cactus').setAttribute('animation-mixer', 'clip:Idle')
+          document.getElementById('e-Alien05').setAttribute('animation-mixer', 'clip:Idle')
         } else if (intersection.object.name == 'Box005') {
-          document.getElementById('e-Ghost').setAttribute('animation-mixer', 'clip:Idle')
+          document.getElementById('e-Alien06').setAttribute('animation-mixer', 'clip:Idle')
         } else if (intersection.object.name == 'Box006') {
           document.getElementById('e-Gremlin').setAttribute('animation-mixer', 'clip:Idle')
         } else if (intersection.object.name == 'Box007') {
@@ -116,20 +135,20 @@ AFRAME.registerComponent('gltf-hover', {
         }
 
         if (self.mouseOverObject && !lockState) {
-          self.mouseOverObject.material.emissive = new THREE.Color(0x000000);
-          self.mouseOverObject.material.emissiveIntensity = 0.0;
+          // self.mouseOverObject.material.emissive = new THREE.Color(0x000000);
+          // self.mouseOverObject.material.emissiveIntensity = 0.0;
           if (self.mouseOverObject.name == 'Box000') {
-            document.getElementById('e-Egg').removeAttribute('animation-mixer')
-          } else if (self.mouseOverObject.name == 'Box001') {
-            document.getElementById('e-BadChicken').removeAttribute('animation-mixer')
+            document.getElementById('e-Alien01').removeAttribute('animation-mixer')
+          } else if (self.mouseOverObject.name == 'Box_1') {
+            document.getElementById('e-Alien02').removeAttribute('animation-mixer')
           } else if (self.mouseOverObject.name == 'Box002') {
-            document.getElementById('e-Bat').removeAttribute('animation-mixer')
+            document.getElementById('e-Alien03').removeAttribute('animation-mixer')
           } else if (self.mouseOverObject.name == 'Box003') {
-            document.getElementById('e-Butterfly').removeAttribute('animation-mixer')
+            document.getElementById('e-Alien04').removeAttribute('animation-mixer')
           } else if (self.mouseOverObject.name == 'Box004') {
-            document.getElementById('e-Cactus').removeAttribute('animation-mixer')
+            document.getElementById('e-Alien05').removeAttribute('animation-mixer')
           } else if (self.mouseOverObject.name == 'Box005') {
-            document.getElementById('e-Ghost').removeAttribute('animation-mixer')
+            document.getElementById('e-Alien06').removeAttribute('animation-mixer')
           } else if (self.mouseOverObject.name == 'Box006') {
             document.getElementById('e-Gremlin').removeAttribute('animation-mixer')
           } else if (self.mouseOverObject.name == 'Box007') {
@@ -147,15 +166,14 @@ AFRAME.registerComponent('gltf-hover', {
         self.mouseOverObject = intersection.object;
       }
     });
-    el.addEventListener('click', function () {
+    el.addEventListener('click', function (e) {
       console.log('click over: ', self.mouseOverObject);
+      console.log("event: ", e)
 
-      if (self.mouseOverObject.name == 'Box001' && !animationState) {
-
-
+      if (self.mouseOverObject.name == 'Box_1' && !animationState) {
         animationIterator
-        mesh = document.getElementById("e-BadChicken")
-        mesh.setAttribute("animation-mixer", "clip:Attack")
+        mesh = document.getElementById("e-Alien02")
+        mesh.setAttribute("animation-mixer", "")
 
         console.log("mesh: ", mesh)
         meshTargetPosition = mesh.getAttribute("position")
@@ -163,7 +181,6 @@ AFRAME.registerComponent('gltf-hover', {
 
         console.log("working: ")
         meshPos = (mesh.getAttribute("position")).valueOf()
-        meshPos.z += 0.3
 
         mesh.getAttribute("rotation")
         console.log("🚀 ~ file: raycast.component.js ~ line 146 ~  rotation", mesh.getAttribute("rotation"))
@@ -186,7 +203,7 @@ AFRAME.registerComponent('gltf-hover', {
     let curPosition = player.getAttribute("position")
     let curRotation = player.getAttribute("rotation")
 
-    let curMeshPosition = document.getElementById("e-BadChicken").getAttribute("position")
+    let curMeshPosition = document.getElementById("e-Alien02").getAttribute("position")
 
     if (animationState) {
 
@@ -198,24 +215,23 @@ AFRAME.registerComponent('gltf-hover', {
       targetPos.z += 0.3
       targetPos.y += 0.1
       curPosition.x = lerp(curPosition.x, targetPos.x, (1 - Math.exp(- 0.005 * dt)))
-      curPosition.y = lerp(curPosition.y, targetPos.y, (1 - Math.exp(- 0.001 * dt)))
+      curPosition.y = lerp(curPosition.y, targetPos.y, (1 - Math.exp(- 0.00001 * dt)))
       curPosition.z = lerp(curPosition.z, targetPos.z, (1 - Math.exp(- 0.005 * dt)))
 
       meshRot.copy(mesh.getAttribute("rotation"))
 
       player.setAttribute("position", curPosition)
-
-
-
+      
+      
       //  pollito animation
-
-      curMeshPosition.z = lerp(curMeshPosition.z, meshPos.z, (1 - Math.exp(- 0.00005 * dt)))
-      let meshRotation = document.getElementById("e-BadChicken").getAttribute("rotation")
+      curMeshPosition.z = lerp(curMeshPosition.z, 0.3, (1 - Math.exp(- 0.005 * dt)))
+      let meshRotation = document.getElementById("e-Alien02").getAttribute("rotation")
       meshRotation.y = lerp(meshRotation.y, (Math.floor(time * 0.01)), (1 - Math.exp(- 0.001 * dt)))
  
 
       mesh.setAttribute("position", curMeshPosition)
       mesh.setAttribute("rotation", meshRotation)
+      // console.log("alien: ",curMeshPosition.z )
  
     }
 
